@@ -22,10 +22,12 @@ class TripManager(models.Manager):
             data['errors'].append('destination cannot be empty')
         if len(postData['description']) < 1:
             data['errors'].append('description cannot be empty')
-        if len(postData['to_date']) < 1:
-            data['errors'].append('start date cannot be empty')
+        if postData['to_date'] == "":
+            data['errors'].append('dates cannot be empty')
+            return data
         if len(postData['from_date']) < 1:
-            data['errors'].append('end Date cannot be empty')
+            data['errors'].append('dates cannot be empty')
+            return data
         start_date = datetime.datetime.strptime(postData['from_date'], '%Y-%m-%d')
         end_date = datetime.datetime.strptime(postData['to_date'], '%Y-%m-%d')
         if not isinstance(start_date, datetime.date):
