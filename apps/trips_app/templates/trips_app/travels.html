@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Trips</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            #add{
+                margin-left: 100px;
+                margin-top: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Hello, {{request.session.username}}</h1>
+            <a href="{% url 'users:logout' %}">Logout</a>
+        </div>
+        <h2>Your Trips</h2>
+        <table>
+            <tr><th>Destination</th><th>Travel Start Date</th><th>Travel End Date</th><th>Plan</th></tr>
+            {% for trip in trips %}
+            <tr><td><a href = '/destination/{{trip.id}}'>{{trip.destination}}</a></td><td>{{trip.from_date}}</td><td>{{trip.to_date}}</td><td>{{trip.description}}</td></tr>
+            {% endfor %}
+        </table>
+        <a id = 'add' href="{% url 'travels:add' %}">Add Trip</a>
+        <h3>Other User's Trips</h3>
+        <table>
+            <tr><th>Name</th><th>Destination</th><th>Travel Start Date</th><th>Travel End Date</th><th>Plan</th><th>Join?</th></tr>
+            {% for trip in other_trips %}
+            <tr><td>{{trip.planned_by.name}}</td><td><a href = '/destination/{{trip.id}}'>{{trip.destination}}</a></td><td>{{trip.from_date}}</td><td>{{trip.to_date}}</td><td>{{trip.description}}</td><td><form action="join" method="post">
+                {%csrf_token%}
+                <input type="hidden" name="user_id" value="{{request.session.user_id}}">
+                <input type="hidden" name="trip_id" value="{{trip.id}}">
+                <input type="submit" name="submit" value="Join">
+            </form></td></tr>
+            {% endfor %}
+
+
+        </table>
+
+        
+    </body>
+</html>

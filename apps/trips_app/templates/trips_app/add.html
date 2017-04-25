@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Add Trip</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <div class="header">
+            <a href="{% url 'travels:travels' %}">Home</a>
+            <a href="{% url 'users:logout' %}">Logout</a>
+        </div>
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {%endfor %}
+        <form action="{% url 'travels:process' %}" method="post">
+            {%csrf_token%}
+            <fieldset>
+                <legend>Add a Trip</legend>
+                <input type="hidden" name="user_id" value="{{request.session.user_id}}">
+                Destination: <input type="text" name="destination" value=""><br>
+                Description: <input type="text" name="description" value = ""><br>
+                Travel Start Date: <input type="date" name="from_date"><br>
+                Travel End Date: <input type="date" name="to_date"><br>
+                <input type="submit" name="submit" value="Add">
+            </fieldset>
+        </form>
+    </body>
+</html>
